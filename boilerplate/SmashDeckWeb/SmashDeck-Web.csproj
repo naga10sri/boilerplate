@@ -1,0 +1,99 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
+    <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
+    <IsPackable>false</IsPackable>
+    <SpaRoot>ClientApp\</SpaRoot>
+    <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
+    <UserSecretsId>da886a92-c6fa-434b-a6d9-3eaae8bd401d</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="2.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Don't publish the SPA source files, but do show them in the project files list -->
+    <Compile Remove="ClientApp\src\pages\blog\**" />
+    <Compile Remove="ClientApp\src\pages\discussion\**" />
+    <Compile Remove="ClientApp\src\pages\email-template\**" />
+    <Compile Remove="ClientApp\src\pages\member\**" />
+    <Compile Remove="ClientApp\src\pages\NewFolder\**" />
+    <Compile Remove="ClientApp\src\pages\offer\**" />
+    <Compile Remove="ClientApp\src\pages\profile\**" />
+    <Compile Remove="ClientApp\src\pages\reward\**" />
+    <Compile Remove="ClientApp\src\pages\startup\**" />
+    <Content Remove="$(SpaRoot)**" />
+    <Content Remove="ClientApp\src\pages\blog\**" />
+    <Content Remove="ClientApp\src\pages\discussion\**" />
+    <Content Remove="ClientApp\src\pages\email-template\**" />
+    <Content Remove="ClientApp\src\pages\member\**" />
+    <Content Remove="ClientApp\src\pages\NewFolder\**" />
+    <Content Remove="ClientApp\src\pages\offer\**" />
+    <Content Remove="ClientApp\src\pages\profile\**" />
+    <Content Remove="ClientApp\src\pages\reward\**" />
+    <Content Remove="ClientApp\src\pages\startup\**" />
+    <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="ClientApp\src\pages\blog\**" />
+    <EmbeddedResource Remove="ClientApp\src\pages\discussion\**" />
+    <EmbeddedResource Remove="ClientApp\src\pages\email-template\**" />
+    <EmbeddedResource Remove="ClientApp\src\pages\member\**" />
+    <EmbeddedResource Remove="ClientApp\src\pages\NewFolder\**" />
+    <EmbeddedResource Remove="ClientApp\src\pages\offer\**" />
+    <EmbeddedResource Remove="ClientApp\src\pages\profile\**" />
+    <EmbeddedResource Remove="ClientApp\src\pages\reward\**" />
+    <EmbeddedResource Remove="ClientApp\src\pages\startup\**" />
+    <None Remove="ClientApp\src\pages\blog\**" />
+    <None Remove="ClientApp\src\pages\discussion\**" />
+    <None Remove="ClientApp\src\pages\email-template\**" />
+    <None Remove="ClientApp\src\pages\member\**" />
+    <None Remove="ClientApp\src\pages\NewFolder\**" />
+    <None Remove="ClientApp\src\pages\offer\**" />
+    <None Remove="ClientApp\src\pages\profile\**" />
+    <None Remove="ClientApp\src\pages\reward\**" />
+    <None Remove="ClientApp\src\pages\startup\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="ClientApp\src\Editor.css" />
+    <None Remove="ClientApp\src\Editor.css" />
+    <None Remove="ClientApp\src\pages\Loginjs.js" />
+    <None Remove="ClientApp\src\pages\Loginjs.js" />
+    <None Remove="ClientApp\src\stores\Counter.js" />
+    <None Remove="ClientApp\src\stores\Counter.js" />
+    <None Remove="ClientApp\src\stores\WeatherForecasts.js" />
+    <None Remove="ClientApp\src\stores\WeatherForecasts.js" />
+  </ItemGroup>
+
+  <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
+    <!-- Ensure Node.js is installed -->
+    <Exec Command="node --version" ContinueOnError="true">
+      <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
+    </Exec>
+    <Error Condition="'$(ErrorCode)' != '0'" Text="Node.js is required to build and run this project. To continue, please install Node.js from https://nodejs.org/, and then restart your command prompt or IDE." />
+    <Message Importance="high" Text="Restoring dependencies using 'npm'. This may take several minutes..." />
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
+  </Target>
+
+  <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
+    <!-- As part of publishing, ensure the JS resources are freshly built in production mode -->
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build" />
+
+    <!-- Include the newly-built files in the publish output -->
+    <ItemGroup>
+      <DistFiles Include="$(SpaRoot)build\**; $(SpaRoot)build-ssr\**" />
+      <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
+        <RelativePath>%(DistFiles.Identity)</RelativePath>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </ResolvedFileToPublish>
+    </ItemGroup>
+  </Target>
+
+</Project>
